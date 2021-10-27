@@ -3,6 +3,7 @@ import type { InfiniteData } from 'vue-query/types';
 import { postKeys, PostListResponse, useCurrentUserId } from '.';
 import { OSSNWebServiceResponse } from '~/types';
 import { generateRandomId } from '~/utils/generate-random-id';
+import { getPostId } from '~/utils/resource-id-helper';
 
 export enum ReactionType {
   Like = 'like',
@@ -71,7 +72,8 @@ export const useLikePost = () => {
           const newPagesArray = previousPostListData?.pages.map((item) => {
             const posts = [...item.payload.posts];
             const postIndex = posts.findIndex((i) => {
-              const guid = i.post.item_type ? i?.post?.item_guid : i.post.guid;
+              // const guid = i.post.item_type ? i?.post?.item_guid : i.post.guid;
+              const guid = getPostId(i.post);
               return guid === variables.postId;
             });
 
@@ -122,7 +124,7 @@ export const useLikePost = () => {
           const newPagesArray = previousUserPostListData?.pages.map((item) => {
             const posts = [...item.payload.posts];
             const postIndex = posts.findIndex((i) => {
-              const guid = i.post.item_type ? i?.post?.item_guid : i.post.guid;
+              const guid = getPostId(i.post);
               return guid === variables.postId;
             });
 
@@ -200,10 +202,10 @@ export const useLikePost = () => {
           );
         }
       },
-      onSettled: (_data, _error, _variables, _context) => {
-        // queryClient.invalidateQueries(postKeys.detail(variables.postId));
-        // queryClient.invalidateQueries(postListQueryKey);
-        // queryClient.invalidateQueries(postKeys.user(variables.userId));
+      onSettled: (_data, _error, variables, _context) => {
+        queryClient.invalidateQueries(postListQueryKey);
+        queryClient.invalidateQueries(postKeys.detail(variables.postId));
+        queryClient.invalidateQueries(postKeys.user(variables.userId));
       },
     }
   );

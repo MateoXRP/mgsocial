@@ -27,10 +27,29 @@ export const useLatestMemberList = () => {
 
   const queryInfo = useInfiniteQuery<LatestMembersResponse>(
     latestMemberListKey,
-    () =>
+    ({ pageParam = 1 }) =>
       $axios.$post(`/api/latest_members`, {
         guid: currentUserId.value,
-      })
+        offset: pageParam,
+      }),
+    {
+      getNextPageParam: (lastGroup: Record<any, any>) => {
+        if (lastGroup.payload && lastGroup.payload.total) {
+          const { total, offset } = lastGroup.payload;
+          // Get number of pages based on total posts
+          const totalPages = Math.ceil(Number(total) / 10);
+
+          // If current page (offset) is equal to
+          // totalPages, stop infinite query.
+          if (Number(offset) === totalPages) return false;
+
+          // Set next page
+          return +offset + 1;
+        }
+
+        return false;
+      },
+    }
   );
 
   const data = computed(() => {
