@@ -28,6 +28,22 @@ $ npm run build
 $ npm start
 ```
 
+## Heroku Deployment
+
+1. Login to heroku.com
+
+2. Click New > `Create New App`
+
+3. Add app-name > `Create App`
+
+4. In the Deploy tab, click `Connect to GitHub` and search the repo name. Click `Connect`.
+
+5. Go to Settings tab, click `Reveal Config Vars`, then add all contents of your `.env` there instead.
+
+6. Finally, click `Deploy Branch`
+
+After this, no need to clone the repo to deploy updates. Every time there's an update in the repo, just click `Deploy Branch` again.
+
 ## Tech stack used
 
 - https://www.opensource-socialnetwork.org/webservices/all
