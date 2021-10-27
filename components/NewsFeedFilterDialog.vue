@@ -78,6 +78,12 @@ export default defineComponent({
 
     const privacy = computed(() => $accessor.newsFeedFilter);
 
+    watch(privacy, (val) => {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('mgsocial_newsfeed_filter', val);
+      }
+    });
+
     return {
       dialog,
       privacy,

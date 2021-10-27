@@ -97,7 +97,7 @@
         </div>
         <VDivider class="mt-2" />
         <PostItemSocialActions
-          :post-id="post.post.guid"
+          :post-id="getPostId(post.post)"
           :post-type="post.post.item_type ? 'entity' : 'post'"
           :is-liked-by-current-user="post.post.is_liked_by_user"
           :reactions="post.reactions"
