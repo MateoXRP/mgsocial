@@ -33,7 +33,7 @@ export const useLatestMemberList = () => {
         offset: pageParam,
       }),
     {
-      getNextPageParam: (lastGroup: Record<any, any>) => {
+      getNextPageParam: (lastGroup) => {
         if (lastGroup.payload && lastGroup.payload.total) {
           const { total, offset } = lastGroup.payload;
           // Get number of pages based on total posts
