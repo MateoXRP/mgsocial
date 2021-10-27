@@ -32,7 +32,7 @@ import SnackbarProvider from '~/components/SnackbarProvider.vue';
 import DialogProvider from '~/components/DialogProvider.vue';
 
 import getNextPageParam from '~/utils/get-next-page-param';
-import { useCurrentUser, useThemeStorage } from '~/composables';
+import { PostPrivacy, useCurrentUser, useThemeStorage } from '~/composables';
 import OAuthWebMonetization from '~/components/OAuthWebMonetization.vue';
 import Lightbox from '~/components/Lightbox.vue';
 import FullscreenLoader from '~/components/FullscreenLoader.vue';
@@ -57,6 +57,9 @@ export default defineComponent({
   middleware: 'auth',
   setup() {
     useThemeStorage();
+    const {
+      app: { $accessor },
+    } = useContext();
     const currentUser = useCurrentUser();
     const defaultOptions = reactive({
       queries: {
@@ -64,6 +67,13 @@ export default defineComponent({
         enabled: computed(() => Boolean(currentUser.value)),
         retry: 2,
       },
+    });
+
+    onMounted(() => {
+      $accessor.setNewsFeedFilter(
+        (localStorage.getItem('mgsocial_newsfeed_filter') as PostPrivacy) ??
+          PostPrivacy.Public
+      );
     });
 
     useNuxtQueryProvider({
