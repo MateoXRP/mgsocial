@@ -1,7 +1,7 @@
 <template>
   <VCard class="mt-2" elevation="1">
     <VCardTitle> Latest Members </VCardTitle>
-    <VDivider></VDivider>
+    <VDivider />
     <VList v-if="isLoading">
       <VSkeletonLoader
         v-for="n in 5"
