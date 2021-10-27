@@ -18,12 +18,11 @@ export const useFriendRequestList = () => {
 
   const queryInfo = useInfiniteQuery<FriendRequestsResponse>(
     friendRequestListKey,
-    ({ pageParam = 1 }) => {
-      return $axios.$post(`/api/user_friend_requests`, {
+    ({ pageParam = 1 }) =>
+      $axios.$post(`/api/user_friend_requests`, {
         guid: currentUserId.value,
         offset: pageParam,
-      });
-    }
+      })
   );
 
   const data = computed(() =>

@@ -47,6 +47,22 @@ export const useFriendList = (username: string) => {
       }),
     {
       enabled: !!username,
+      getNextPageParam: (lastGroup) => {
+        if (lastGroup.payload && lastGroup.payload.total) {
+          const { total, offset } = lastGroup.payload;
+          // Get number of pages based on total posts
+          const totalPages = Math.ceil(Number(total) / 10);
+
+          // If current page (offset) is equal to
+          // totalPages, stop infinite query.
+          if (Number(offset) === totalPages) return false;
+
+          // Set next page
+          return +offset + 1;
+        }
+
+        return false;
+      },
     }
   );
 
