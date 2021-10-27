@@ -6,6 +6,8 @@ const router = Router();
 const Sdk = new XummSdk(process.env.XUMM_API_KEY, process.env.XUMM_API_SECRET);
 
 interface Payload {
+  protocol: string;
+  host: string;
   userToken?: string;
   destination: string;
   identifier: string;
@@ -18,6 +20,8 @@ interface Payload {
 }
 
 const createPayload = ({
+  protocol,
+  host,
   userToken,
   destination,
   identifier,
@@ -61,7 +65,7 @@ const createPayload = ({
         web:
           process.env.NODE_ENV === 'development'
             ? 'http://localhost:3000'
-            : 'https://mg-social.herokuapp.com/',
+            : `${protocol}://${host}`,
       },
     },
   };
@@ -82,6 +86,8 @@ router.post('/xumm/payment', async (req, res) => {
   } = req.body;
 
   const newPayload = createPayload({
+    protocol: req.protocol,
+    host: req.get('host')!,
     userToken,
     destination,
     identifier: Date.now() + '_' + senderId,
