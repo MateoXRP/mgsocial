@@ -127,13 +127,11 @@ import {
   useFilePicker,
   useSnackbar,
   User,
-} from '~/composables';
-import {
   CreatePostBody,
   Monetized,
   PostType,
   useCreatePost,
-} from '~/composables/useCreatePost';
+} from '~/composables';
 
 export default defineComponent({
   name: 'PostForm',

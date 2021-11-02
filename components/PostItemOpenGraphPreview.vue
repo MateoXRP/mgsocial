@@ -13,12 +13,12 @@
     <div class="px-4 py-2">
       <div
         class="text-body-1 font-weight-medium"
-        v-text="ogResult.ogTitle"
+        v-text="ogResult.ogTitle || ogResult.twitterTitle"
       ></div>
       <div
-        v-if="ogResult.ogDescription"
+        v-if="ogResult.ogDescription || ogResult.twitterDescription"
         class="text-body-2 text-truncate hidden-sm-and-down"
-        v-text="ogResult.ogDescription"
+        v-text="ogResult.ogDescription || ogResult.twitterDescription"
       ></div>
       <div style="font-size: 13px" v-text="nakedDomain"></div>
     </div>
@@ -45,7 +45,7 @@ export default defineComponent({
     };
 
     const nakedDomain = computed(() => {
-      const domain = new URL(props.ogResult.ogUrl);
+      const domain = new URL(props.ogResult.ogUrl ?? props.ogResult.requestUrl);
       return domain.hostname.replace('www.', '');
     });
 
@@ -58,6 +58,10 @@ export default defineComponent({
     const ogImage = computed(() => {
       if (props.ogResult.ogImage instanceof Array) {
         return props.ogResult.ogImage[0].url;
+      }
+
+      if (props.ogResult.twitterImage) {
+        return props.ogResult.twitterImage.url;
       }
 
       return props.ogResult.ogImage.url;

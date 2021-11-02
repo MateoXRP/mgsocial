@@ -169,6 +169,7 @@ export default defineComponent({
       $cookies.removeAll();
       $accessor.auth.setIsAuthenticated(false);
       $accessor.auth.setUser(null);
+      $accessor.auth.setCoilInfo(null);
       $accessor.setNewsFeedFilter(PostPrivacy.Public);
       router.replace('/');
     };

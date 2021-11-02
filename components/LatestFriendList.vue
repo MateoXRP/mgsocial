@@ -14,7 +14,7 @@
     </div>
     <VList v-else>
       <VListItem
-        v-for="user in data"
+        v-for="user in getFiveFriends"
         :key="user.guid"
         :to="`/u/${user.username}`"
       >
@@ -57,12 +57,20 @@ export default defineComponent({
       currentUser.value?.username!
     );
 
+    const getFiveFriends = computed(() => {
+      if (data.value) {
+        return data.value.slice(0, 5);
+      }
+
+      return data.value;
+    });
+
     return {
       isLoading,
       isError,
       isFetching,
       refetch,
-      data,
+      getFiveFriends,
       currentUser,
     };
   },

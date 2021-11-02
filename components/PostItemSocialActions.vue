@@ -1,7 +1,7 @@
 <template>
   <div class="mt-1">
     <VBtn
-      v-if="isLikedByCurrentUser"
+      v-if="post.post.is_liked_by_user"
       :class="['mr-1', getColorByReaction(selectedIcon)]"
       text
       :disabled="isLikeLoading"
@@ -36,15 +36,15 @@
       <VIcon left>mdi-comment-outline</VIcon>
       Comment
     </VBtn>
-    <VBtn text class="social-btn mr-1">
+    <VBtn text class="social-btn mr-1" @click="share">
       <VIcon left>mdi-share-outline</VIcon>
       Share
     </VBtn>
     <PostItemTipDialog
-      v-if="xummAddress && currentUserId !== userId"
-      :xumm-address="xummAddress"
-      :user-id="userId"
-      :post-id="postId"
+      v-if="post.user.xummaddress && currentUserId !== post.user.guid"
+      :xumm-address="post.user.xummaddress"
+      :user-id="post.user.guid"
+      :post-id="getPostId(post.post)"
     />
   </div>
 </template>
@@ -54,66 +54,103 @@ import type { PropType } from '@nuxtjs/composition-api';
 import PostItemTipDialog from './PostItemTipDialog.vue';
 import AppReactionMenu from './AppReactionMenu.vue';
 import ReactionIcons from './ReactionIcons.vue';
-import { ReactionType, useCurrentUserId, useLikePost } from '~/composables';
-import type { Reaction } from '~/composables';
+import {
+  ReactionType,
+  useCurrentUserId,
+  useDialog,
+  useLikePost,
+  useCreatePost,
+  useCurrentUser,
+  PostPrivacy,
+  CreatePostBody,
+  PostType,
+  Monetized,
+  PostRecord,
+  useFullscreenLoader,
+  useSnackbar,
+} from '~/composables';
 import getColorByReaction from '~/utils/get-color-by-reaction';
+import { getPostId } from '~/utils/resource-id-helper';
 
 export default defineComponent({
   name: 'PostItemSocialActions',
   components: { PostItemTipDialog, AppReactionMenu, ReactionIcons },
   props: {
-    postId: {
-      type: String,
+    post: {
+      type: Object as PropType<PostRecord>,
       required: true,
-    },
-    postType: {
-      type: String as PropType<'entity' | 'post'>,
-      required: true,
-    },
-    isLikedByCurrentUser: {
-      type: Boolean,
-      required: true,
-    },
-    reactions: {
-      type: Array as PropType<Reaction[]>,
-      required: true,
-    },
-    userId: {
-      type: String,
-      required: true,
-    },
-    xummAddress: {
-      type: String,
-      required: false,
-      default: '',
     },
   },
   emits: ['update:showCommentSection'],
   setup(props) {
+    const user = useCurrentUser();
     const likePost = useLikePost();
     const currentUserId = useCurrentUserId();
+    const createConfirmDialog = useDialog();
+    const createPost = useCreatePost();
+    const { show: showLoader, hide: hideLoader } = useFullscreenLoader();
+    const createSnackbar = useSnackbar();
 
     const handleReactionClick = (reaction: ReactionType) => {
+      const {
+        post: { post, user },
+      } = props;
       likePost.mutateAsync({
-        postId: props.postId,
-        type: props.postType,
-        action: props.isLikedByCurrentUser ? 'unlike' : 'like',
+        postId: getPostId(post),
+        type: post.item_type ? 'entity' : 'post',
+        action: post.is_liked_by_user ? 'unlike' : 'like',
         reaction_type: reaction,
-        userId: props.userId,
+        userId: user.guid,
       });
     };
 
     const selectedIcon = computed(() => {
-      const reaction = props.reactions.find(
+      const reaction = props.post.reactions.find(
         (i) => i.guid === currentUserId.value
       );
 
-      return props.isLikedByCurrentUser && reaction
+      return props.post.post.is_liked_by_user && reaction
         ? (reaction.subtype as ReactionType)
         : ReactionType.Like;
     });
 
     const isLikeLoading = computed(() => likePost.isLoading.value);
+
+    const share = async () => {
+      try {
+        const shouldProceed = await createConfirmDialog(
+          'Confirm',
+          'Share this post?',
+          { width: 300 }
+        );
+        if (shouldProceed) {
+          showLoader();
+          const {
+            post: { post },
+          } = props;
+
+          const body: CreatePostBody = {
+            owner_guid: user.value?.guid!,
+            poster_guid: user.value?.guid!,
+            type: PostType.User,
+            privacy: PostPrivacy.Public,
+            post: 'null:data',
+            is_monetized: Monetized.Yes,
+            item_type: 'post:share:post',
+            item_guid: post.guid,
+          };
+
+          if (post.item_type === 'post:share:post') {
+            // Get shared guid if this post is also a shared one.
+            body.item_guid = post?.item_guid;
+          }
+
+          await createPost.mutateAsync(body);
+          createSnackbar('Post shared');
+          hideLoader();
+        }
+      } catch (_e) {}
+    };
 
     return {
       handleReactionClick,
@@ -122,6 +159,8 @@ export default defineComponent({
       getColorByReaction,
       isLikeLoading,
       currentUserId,
+      share,
+      getPostId,
     };
   },
 });

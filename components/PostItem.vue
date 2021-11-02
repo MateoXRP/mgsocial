@@ -49,12 +49,24 @@
         </VListItemAction>
       </VListItem>
     </VList>
-    <VCardText :class="['px-0', showCommentSection ? 'pb-2' : 'pb-1']">
+    <VCardText
+      :class="[
+        'px-0',
+        showCommentSection ? 'pb-2' : 'pb-1',
+        isSharedPost ? 'pa-0' : '',
+      ]"
+    >
       <div
         v-if="postText !== ''"
         v-dompurify-html="linkifiedPostText"
         class="mb-2 mx-4"
       />
+
+      <PostItemSharedPost
+        v-if="isSharedPost && post.original"
+        :post="post.original"
+      />
+
       <VImg
         v-if="imageUrl"
         class="mt-3 cursor-pointer"
@@ -69,7 +81,11 @@
         </template>
       </VImg>
       <div
-        v-else-if="ogResult && ogResult.success && ogResult.ogImage"
+        v-else-if="
+          ogResult &&
+          ogResult.success &&
+          (ogResult.ogImage || ogResult.twitterImage)
+        "
         class="mt-3"
       >
         <PostItemOpenGraphPreview :og-result="ogResult" />
@@ -97,12 +113,7 @@
         </div>
         <VDivider class="mt-2" />
         <PostItemSocialActions
-          :post-id="getPostId(post.post)"
-          :post-type="post.post.item_type ? 'entity' : 'post'"
-          :is-liked-by-current-user="post.post.is_liked_by_user"
-          :reactions="post.reactions"
-          :user-id="post.user.guid"
-          :xumm-address="post.user.xummaddress"
+          :post="post"
           :show-comment-section.sync="showCommentSection"
         />
         <template v-if="showCommentSection">
@@ -137,6 +148,7 @@ import PostItemCommentForm from './PostItemCommentForm.vue';
 import PostItemSocialActions from './PostItemSocialActions.vue';
 import PostItemTipSummaryDialog from './PostItemTipSummaryDialog.vue';
 import PostItemReactionSummaryDialog from './PostItemReactionSummaryDialog.vue';
+import PostItemSharedPost from './PostItemSharedPost.vue';
 import {
   PostRecord,
   useOpenGraphScraper,
@@ -158,6 +170,7 @@ export default defineComponent({
     PostItemCommentForm,
     PostItemTipSummaryDialog,
     PostItemReactionSummaryDialog,
+    PostItemSharedPost,
   },
   props: {
     isSelected: {
@@ -222,6 +235,14 @@ export default defineComponent({
       () => JSON.parse(post.post.description).is_monetized
     );
 
+    const isSharedPost = computed(
+      () => post.post.item_type === 'post:share:post'
+    );
+
+    const originalPost = computed(() => {
+      return post.original ? post.original : false;
+    });
+
     return {
       loading,
       ogResult,
@@ -239,6 +260,8 @@ export default defineComponent({
       isMonetized,
       ReactionType,
       showImage,
+      isSharedPost,
+      originalPost,
       ...usePostTips(post),
     };
   },
