@@ -70,7 +70,7 @@
     "type-fest": "^2.5.1",
     "typescript": "^4.4.3",
     "unplugin-auto-import": "^0.4.12",
-    "vuetify": "^2.5.8"
+    "vuetify": "^2.5.10"
   },
   "volta": {
     "node": "15.14.0"
