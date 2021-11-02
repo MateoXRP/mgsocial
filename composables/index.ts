@@ -44,3 +44,4 @@ export * from './useCreateFriendRequest';
 export * from './useRemoveFriend';
 export * from './useUpdateProfilePhoto';
 export * from './useFullscreenLoader';
+export * from './useCreatePost';
