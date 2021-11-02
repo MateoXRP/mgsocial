@@ -64,26 +64,21 @@ export default defineNuxtPlugin((context) => {
       }
 
       try {
-        const mgUserInfo = await getMGSocialInfo(coilUserInfo.email);
+        const mgUserInfo = await getMGSocialInfo(coilUserInfo);
         app.$accessor.auth.setUser(mgUserInfo);
-        app.$accessor.auth.setIsAuthenticated(true);
       } catch (e) {
-        // TODO: Check for other error responses
-        // User doesn't exist. Create it.
-        const newUser = await createMGSocialUser({
-          email: coilUserInfo.email,
-          coil_refresh_token: refreshToken,
-        });
+        const newUser = await createMGSocialUser(coilUserInfo);
         app.$accessor.auth.setUser(newUser);
-        app.$accessor.auth.setIsAuthenticated(true);
       }
+      app.$accessor.auth.setCoilInfo(coilUserInfo);
+      app.$accessor.auth.setIsAuthenticated(true);
       return true;
     }
 
     const coilUserInfo = {
+      sub: '1233211',
       email: 'sorianorobertc@gmail.com',
     };
-    const refreshToken = '3213131';
 
     try {
       // const mgUserInfo = await getMGSocialInfo(coilUserInfo.email);
@@ -120,8 +115,8 @@ export default defineNuxtPlugin((context) => {
       // TODO: Check for other error responses
       // User doesn't exist. Create it.
       const newUser = await createMGSocialUser({
+        sub: coilUserInfo.sub,
         email: coilUserInfo.email,
-        coil_refresh_token: refreshToken,
       });
       app.$accessor.auth.setUser(newUser);
       app.$accessor.auth.setIsAuthenticated(true);
