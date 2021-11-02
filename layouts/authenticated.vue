@@ -18,7 +18,7 @@
         {{ new Date().getFullYear() }} — <strong>&copy; MG.Social</strong>
       </VCol>
     </VFooter>
-    <OAuthWebMonetization />
+    <CoilTokensRefetcher />
     <Lightbox />
     <FullscreenLoader />
   </VApp>
@@ -33,7 +33,7 @@ import DialogProvider from '~/components/DialogProvider.vue';
 
 import getNextPageParam from '~/utils/get-next-page-param';
 import { PostPrivacy, useCurrentUser, useThemeStorage } from '~/composables';
-import OAuthWebMonetization from '~/components/OAuthWebMonetization.vue';
+import CoilTokensRefetcher from '~/components/CoilTokensRefetcher.vue';
 import Lightbox from '~/components/Lightbox.vue';
 import FullscreenLoader from '~/components/FullscreenLoader.vue';
 
@@ -51,7 +51,7 @@ export default defineComponent({
     DialogProvider,
     SnackbarProvider,
     Lightbox,
-    OAuthWebMonetization,
+    CoilTokensRefetcher,
     FullscreenLoader,
   },
   middleware: 'auth',
