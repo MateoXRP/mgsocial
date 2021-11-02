@@ -24,7 +24,11 @@
       <FetchErrorAction :is-loading="isFetching" @refetch="refetch" />
     </div>
     <VList v-else two-line>
-      <VListItem v-for="friend in friends" :key="friend.guid">
+      <VListItem
+        v-for="friend in friends"
+        :key="friend.guid"
+        :to="`/u/${friend.username}`"
+      >
         <VListItemAvatar>
           <VImg :src="friend.icon.small"></VImg>
         </VListItemAvatar>
