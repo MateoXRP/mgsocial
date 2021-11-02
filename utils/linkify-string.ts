@@ -1,4 +1,5 @@
 import getUrls from 'get-urls';
+import removeHashtags from './remove-hashtags';
 
 /**
  * Converts links from plain-text to html anchor tags.
@@ -8,9 +9,11 @@ import getUrls from 'get-urls';
  */
 export default function linkify(text: string, linkClass = '') {
   // links
-  const urls = getUrls(text);
+  const urls = getUrls(removeHashtags(text));
+
   if (urls.size) {
     const re = new RegExp([...urls].join('|'), 'gi');
+
     text = text.replace(
       re,
       (matched: string) =>

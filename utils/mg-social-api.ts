@@ -8,13 +8,22 @@ import { User } from '~/composables/useUserDetail';
 
 type MGSocialInfoResponse = Merge<OSSNWebServiceResponse, { payload: User }>;
 
-export const getBaseMGSocialInfo = async (key: string, value: string) => {
+export const getBaseMGSocialInfo = async ({
+  key,
+  value,
+  sub,
+}: {
+  key: string;
+  value: string;
+  sub: string;
+}) => {
   const { data } = await axios.get<MGSocialInfoResponse>(
     `${process.env.MG_API_URL}/user_details`,
     {
       params: {
         api_key_token: process.env.MG_API_TOKEN,
         [key]: value,
+        sub,
       },
     }
   );
@@ -26,17 +35,37 @@ export const getBaseMGSocialInfo = async (key: string, value: string) => {
   throw new Error(data.message);
 };
 
-export const getMGSocialInfo = async (email: string) => {
-  return await getBaseMGSocialInfo('email', email);
+export const getMGSocialInfo = ({
+  email,
+  sub,
+}: {
+  email: string;
+  sub: string;
+}) => {
+  return getBaseMGSocialInfo({
+    key: 'email',
+    value: email,
+    sub,
+  });
 };
 
-export const getMGSocialInfoByUsername = async (username: string) => {
-  return await getBaseMGSocialInfo('username', username);
+export const getMGSocialInfoByUsername = async ({
+  username,
+  sub,
+}: {
+  username: string;
+  sub: string;
+}) => {
+  return await getBaseMGSocialInfo({
+    key: 'username',
+    value: username,
+    sub,
+  });
 };
 
 type CreateUserBody = {
+  sub: string;
   email: string;
-  coil_refresh_token: string;
 };
 
 type NewUserResponse = Merge<OSSNWebServiceResponse, { payload: User }>;
