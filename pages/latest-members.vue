@@ -13,7 +13,11 @@
       <FetchErrorAction :is-loading="isFetching" @refetch="refetch" />
     </div>
     <VList v-else two-line>
-      <VListItem v-for="member in latestMembers" :key="member.guid">
+      <VListItem
+        v-for="member in latestMembers"
+        :key="member.guid"
+        :to="`/u/${member.username}`"
+      >
         <VListItemAvatar>
           <VImg :src="member.icon.small"></VImg>
         </VListItemAvatar>

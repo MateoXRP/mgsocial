@@ -13,31 +13,44 @@
               dense
               outlined
               :rules="rules.firstName"
-              required />
+              required
+            />
             <VTextField
               v-model="personalInfo.lastName"
               label="Last name"
               dense
               outlined
               :rules="rules.lastName"
-              required />
+              required
+            />
             <VTextField
               v-model="personalInfo.username"
               label="Username"
               dense
               outlined
               :rules="rules.username"
-              required />
-            <VTextField
-              v-model="personalInfo.email"
-              label="Coil Email"
-              type="email"
-              dense
-              outlined
-              readonly
-              :rules="rules.email"
               required
-          /></VCardText>
+            />
+
+            <template v-if="$accessor.auth.coilInfo">
+              <VTextField
+                :value="$accessor.auth.coilInfo.email"
+                label="Coil Email"
+                type="email"
+                dense
+                outlined
+                readonly
+              />
+              <VTextField
+                :value="$accessor.auth.coilInfo.sub"
+                label="Coil ID"
+                type="email"
+                dense
+                outlined
+                readonly
+              />
+            </template>
+          </VCardText>
         </VTabItem>
         <VTabItem>
           <VCardText>
