@@ -84,6 +84,7 @@ export default defineNuxtPlugin((context) => {
       // const mgUserInfo = await getMGSocialInfo(coilUserInfo.email);
       app.$accessor.auth.setUser({
         guid: '13',
+        type: 'admin',
         first_name: 'Robert',
         last_name: 'Anderson',
         fullname: 'robertz',
