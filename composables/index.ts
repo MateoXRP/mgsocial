@@ -45,3 +45,4 @@ export * from './useRemoveFriend';
 export * from './useUpdateProfilePhoto';
 export * from './useFullscreenLoader';
 export * from './useCreatePost';
+export * from './useUserWithCoilIdList';

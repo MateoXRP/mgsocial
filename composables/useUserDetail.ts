@@ -7,6 +7,7 @@ export const userDetailKey = (email: string) => ['user_details', email];
 
 export interface User {
   guid: string;
+  type: 'admin' | 'normal';
   first_name: string;
   last_name: string;
   fullname: string;
