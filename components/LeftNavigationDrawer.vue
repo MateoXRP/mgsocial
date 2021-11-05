@@ -138,30 +138,43 @@ export default defineComponent({
       app: { $cookies, $accessor },
     } = useContext();
     const router = useRouter();
-    const links = ref([
-      { text: 'News Feed', icon: 'mdi-home-outline', url: '/home' },
-      {
-        text: 'Profile',
-        icon: 'mdi-account-outline',
-        url: `/u/${user.value?.username}`,
-      },
-      {
-        text: 'Friends',
-        icon: 'mdi-account-multiple-outline',
-        url: `/u/${user.value?.username}/friends`,
-      },
-      {
-        text: 'Notifications',
-        icon: 'mdi-bell-outline',
-        url: '/notifications',
-      },
-      { text: 'Messages', icon: 'mdi-email-outline', url: '/messages' },
-      {
-        text: 'Earnings',
-        icon: 'mdi-currency-usd',
-        url: '/earnings',
-      },
-    ]);
+    const links = computed(() => {
+      const list = [
+        { text: 'News Feed', icon: 'mdi-home-outline', url: '/home' },
+        {
+          text: 'Profile',
+          icon: 'mdi-account-outline',
+          url: `/u/${user.value?.username}`,
+        },
+        {
+          text: 'Friends',
+          icon: 'mdi-account-multiple-outline',
+          url: `/u/${user.value?.username}/friends`,
+        },
+        {
+          text: 'Notifications',
+          icon: 'mdi-bell-outline',
+          url: '/notifications',
+        },
+        { text: 'Messages', icon: 'mdi-email-outline', url: '/messages' },
+        {
+          text: 'Earnings',
+          icon: 'mdi-currency-usd',
+          url: '/earnings',
+        },
+      ];
+
+      if (user.value?.type === 'admin') {
+        list.push({
+          text: 'Users with Coil ID',
+          icon: 'mdi-account-multiple-outline',
+          url: '/users-with-coil-id',
+        });
+      }
+
+      return list;
+    });
+
     const { friendsCount, notificationsCount, messagesCount } =
       useNotificationsCount();
 

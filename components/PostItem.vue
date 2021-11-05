@@ -16,8 +16,10 @@
             <span v-if="taggedFriends"
               ><span class="font-weight-light">is with</span>
               {{ taggedFriends }}</span
-            ></VListItemTitle
-          >
+            >
+            <span v-else-if="isProfilePhotoPost">Changed profile photo</span>
+            <span v-else-if="isCoverPhotoPost">Changed cover photo</span>
+          </VListItemTitle>
           <VListItemSubtitle class="d-flex"
             ><NuxtLink
               class="nuxt-link mr-1"
@@ -62,10 +64,40 @@
         class="mb-2 mx-4"
       />
 
-      <PostItemSharedPost
-        v-if="isSharedPost && post.original"
-        :post="post.original"
-      />
+      <template v-if="post.post.item_type">
+        <PostItemSharedPost
+          v-if="isSharedPost && post.original"
+          :post="post.original"
+        />
+
+        <VImg
+          v-else-if="isCoverPhotoPost"
+          class="mt-3 cursor-pointer"
+          :src="post.post.profile_cover_url"
+          aspect-ratio="1.7"
+          contain
+          @click="showImage(post.post.profile_cover_url)"
+          ><template #placeholder>
+            <VRow class="fill-height ma-0" align="center" justify="center">
+              <VProgressCircular indeterminate color="grey lighten-5" />
+            </VRow>
+          </template>
+        </VImg>
+
+        <VImg
+          v-else-if="isProfilePhotoPost"
+          class="mt-3 cursor-pointer"
+          :src="post.post.profile_photo_url"
+          aspect-ratio="1.7"
+          contain
+          @click="showImage(post.post.profile_photo_url)"
+          ><template #placeholder>
+            <VRow class="fill-height ma-0" align="center" justify="center">
+              <VProgressCircular indeterminate color="grey lighten-5" />
+            </VRow>
+          </template>
+        </VImg>
+      </template>
 
       <VImg
         v-if="imageUrl"
@@ -73,7 +105,7 @@
         :src="imageUrl"
         aspect-ratio="1.7"
         contain
-        @click="showImage"
+        @click="showImage(imageUrl)"
         ><template #placeholder>
           <VRow class="fill-height ma-0" align="center" justify="center">
             <VProgressCircular indeterminate color="grey lighten-5" />
@@ -198,7 +230,7 @@ export default defineComponent({
 
     const postText = computed(() => {
       if (post.text !== 'null:data') {
-        return decodeHTMLEntities(JSON.parse(post.post.description).post);
+        return decodeHTMLEntities(post.text);
       }
 
       return '';
@@ -213,10 +245,8 @@ export default defineComponent({
       return `${$config.mgSocialUrl}/post/photo/${post.post.guid}/${post.image}`;
     });
 
-    const showImage = () => {
-      if (imageUrl.value) {
-        show(imageUrl.value);
-      }
+    const showImage = (url: string | false | undefined) => {
+      if (url) show(url);
     };
 
     const commentsText = computed(() =>
@@ -235,13 +265,19 @@ export default defineComponent({
       () => JSON.parse(post.post.description).is_monetized
     );
 
-    const isSharedPost = computed(
-      () => post.post.item_type === 'post:share:post'
-    );
-
     const originalPost = computed(() => {
       return post.original ? post.original : false;
     });
+
+    const isSharedPost = computed(
+      () => post.post.item_type === 'post:share:post'
+    );
+    const isCoverPhotoPost = computed(
+      () => post.post.item_type === 'cover:photo'
+    );
+    const isProfilePhotoPost = computed(
+      () => post.post.item_type === 'profile:photo'
+    );
 
     return {
       loading,
@@ -260,8 +296,10 @@ export default defineComponent({
       isMonetized,
       ReactionType,
       showImage,
-      isSharedPost,
       originalPost,
+      isSharedPost,
+      isCoverPhotoPost,
+      isProfilePhotoPost,
       ...usePostTips(post),
     };
   },

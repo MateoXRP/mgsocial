@@ -16,8 +16,11 @@
             <span v-if="taggedFriends"
               ><span class="font-weight-light">is with</span>
               {{ taggedFriends }}</span
-            ></VListItemTitle
-          >
+            >
+
+            <span v-else-if="isProfilePhotoPost">Changed profile photo</span>
+            <span v-else-if="isCoverPhotoPost">Changed cover photo</span>
+          </VListItemTitle>
           <VListItemSubtitle class="d-flex"
             ><NuxtLink
               class="nuxt-link mr-1"
@@ -42,6 +45,40 @@
         v-dompurify-html="linkifiedPostText"
         class="mb-2 mx-4"
       />
+      <template v-if="post.post.item_type">
+        <PostItemSharedPost
+          v-if="isSharedPost && post.original"
+          :post="post.original"
+        />
+
+        <VImg
+          v-else-if="isCoverPhotoPost"
+          class="mt-3 cursor-pointer"
+          :src="post.post.profile_cover_url"
+          aspect-ratio="1.7"
+          contain
+          @click="$router.push(`/post/view/${post.post.guid}`)"
+          ><template #placeholder>
+            <VRow class="fill-height ma-0" align="center" justify="center">
+              <VProgressCircular indeterminate color="grey lighten-5" />
+            </VRow>
+          </template>
+        </VImg>
+
+        <VImg
+          v-else-if="isProfilePhotoPost"
+          class="mt-3 cursor-pointer"
+          :src="post.post.profile_photo_url"
+          aspect-ratio="1.7"
+          contain
+          @click="$router.push(`/post/view/${post.post.guid}`)"
+          ><template #placeholder>
+            <VRow class="fill-height ma-0" align="center" justify="center">
+              <VProgressCircular indeterminate color="grey lighten-5" />
+            </VRow>
+          </template>
+        </VImg>
+      </template>
       <VImg
         v-if="imageUrl"
         class="mt-3 cursor-pointer"
@@ -93,7 +130,7 @@ export default defineComponent({
     );
     const postText = computed(() => {
       if (props.post.text !== 'null:data') {
-        return decodeHTMLEntities(JSON.parse(props.post.post.description).post);
+        return decodeHTMLEntities(props.post.text);
       }
       return '';
     });
@@ -109,6 +146,16 @@ export default defineComponent({
       }
       return `${$config.mgSocialUrl}/post/photo/${props.post.post.guid}/${props.post.image}`;
     });
+    const isSharedPost = computed(
+      () => props.post.post.item_type === 'post:share:post'
+    );
+    const isCoverPhotoPost = computed(
+      () => props.post.post.item_type === 'cover:photo'
+    );
+    const isProfilePhotoPost = computed(
+      () => props.post.post.item_type === 'profile:photo'
+    );
+
     return {
       taggedFriends,
       isPublic,
@@ -117,6 +164,9 @@ export default defineComponent({
       imageUrl,
       ogResult,
       ogIsLoading,
+      isSharedPost,
+      isCoverPhotoPost,
+      isProfilePhotoPost,
     };
   },
 });
