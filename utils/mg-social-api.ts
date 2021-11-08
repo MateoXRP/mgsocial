@@ -49,14 +49,14 @@ export const getMGSocialInfo = ({
   });
 };
 
-export const getMGSocialInfoByUsername = async ({
+export const getMGSocialInfoByUsername = ({
   username,
   sub,
 }: {
   username: string;
   sub: string;
 }) => {
-  return await getBaseMGSocialInfo({
+  return getBaseMGSocialInfo({
     key: 'username',
     value: username,
     sub,
