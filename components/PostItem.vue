@@ -72,7 +72,7 @@
 
         <VImg
           v-else-if="isCoverPhotoPost"
-          class="mt-3 cursor-pointer"
+          class="mt-3 cursor-pointer grey lighten-2"
           :src="post.post.profile_cover_url"
           aspect-ratio="1.7"
           contain
@@ -86,7 +86,7 @@
 
         <VImg
           v-else-if="isProfilePhotoPost"
-          class="mt-3 cursor-pointer"
+          class="mt-3 cursor-pointer grey lighten-2"
           :src="post.post.profile_photo_url"
           aspect-ratio="1.7"
           contain
@@ -101,7 +101,7 @@
 
       <VImg
         v-if="imageUrl"
-        class="mt-3 cursor-pointer"
+        class="mt-3 cursor-pointer grey lighten-2"
         :src="imageUrl"
         aspect-ratio="1.7"
         contain

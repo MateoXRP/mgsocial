@@ -1,12 +1,9 @@
 <template>
   <div :class="`preview ${backgroundColor}`" @click="openWebsite">
-    <VImg :src="ogImage" max-height="350">
+    <VImg :src="ogImage" class="grey lighten-2" max-height="350">
       <template #placeholder>
         <VRow class="fill-height ma-0" align="center" justify="center">
-          <VProgressCircular
-            indeterminate
-            color="grey lighten-5"
-          ></VProgressCircular>
+          <VProgressCircular indeterminate color="grey lighten-5" />
         </VRow>
       </template>
     </VImg>
