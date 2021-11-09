@@ -70,48 +70,34 @@
           :post="post.original"
         />
 
-        <VImg
-          v-else-if="isCoverPhotoPost"
+        <AppImgWithPlaceholder
+          v-else-if="isCoverPhotoPost && post.post.profile_cover_url"
           class="mt-3 cursor-pointer grey lighten-2"
           :src="post.post.profile_cover_url"
           aspect-ratio="1.7"
           contain
           @click="showImage(post.post.profile_cover_url)"
-          ><template #placeholder>
-            <VRow class="fill-height ma-0" align="center" justify="center">
-              <VProgressCircular indeterminate color="grey lighten-5" />
-            </VRow>
-          </template>
-        </VImg>
+        />
 
-        <VImg
-          v-else-if="isProfilePhotoPost"
+        <AppImgWithPlaceholder
+          v-else-if="isProfilePhotoPost && post.post.profile_photo_url"
           class="mt-3 cursor-pointer grey lighten-2"
           :src="post.post.profile_photo_url"
           aspect-ratio="1.7"
           contain
           @click="showImage(post.post.profile_photo_url)"
-          ><template #placeholder>
-            <VRow class="fill-height ma-0" align="center" justify="center">
-              <VProgressCircular indeterminate color="grey lighten-5" />
-            </VRow>
-          </template>
-        </VImg>
+        />
       </template>
 
-      <VImg
+      <AppImgWithPlaceholder
         v-if="imageUrl"
         class="mt-3 cursor-pointer grey lighten-2"
         :src="imageUrl"
         aspect-ratio="1.7"
         contain
         @click="showImage(imageUrl)"
-        ><template #placeholder>
-          <VRow class="fill-height ma-0" align="center" justify="center">
-            <VProgressCircular indeterminate color="grey lighten-5" />
-          </VRow>
-        </template>
-      </VImg>
+      />
+
       <div
         v-else-if="
           ogResult &&
@@ -181,6 +167,7 @@ import PostItemSocialActions from './PostItemSocialActions.vue';
 import PostItemTipSummaryDialog from './PostItemTipSummaryDialog.vue';
 import PostItemReactionSummaryDialog from './PostItemReactionSummaryDialog.vue';
 import PostItemSharedPost from './PostItemSharedPost.vue';
+import AppImgWithPlaceholder from './AppImgWithPlaceholder.vue';
 import {
   PostRecord,
   useOpenGraphScraper,
@@ -203,6 +190,7 @@ export default defineComponent({
     PostItemTipSummaryDialog,
     PostItemReactionSummaryDialog,
     PostItemSharedPost,
+    AppImgWithPlaceholder,
   },
   props: {
     isSelected: {
