@@ -16,15 +16,13 @@
             class="d-flex child-flex"
             cols="3"
           >
-            <VImg
-              :src="photo.image_url"
-              aspect-ratio="1"
-              class="grey lighten-2"
-            >
-              <template #placeholder>
-                <AppImagePlaceholder />
-              </template>
-            </VImg> </VCol
+            <NuxtLink :to="`/photos/${$route.params.type}/view/${photo.guid}`">
+              <AppImgWithPlaceholder
+                :src="photo.image_url"
+                aspect-ratio="1"
+                class="grey lighten-2"
+              />
+            </NuxtLink> </VCol
         ></VRow>
       </VFadeTransition>
     </VCardText>
@@ -33,10 +31,11 @@
 
 <script lang="ts">
 import { useProfileOrCoverAlbumPhotoList } from '~/composables';
-import AppImagePlaceholder from '~/components/AppImagePlaceholder.vue';
+import AppImgWithPlaceholder from '~/components/AppImgWithPlaceholder.vue';
+
 export default defineComponent({
   components: {
-    AppImagePlaceholder,
+    AppImgWithPlaceholder,
   },
   layout: 'authenticated',
   setup() {
@@ -45,15 +44,19 @@ export default defineComponent({
       type: route.value.params.type as 'profile' | 'cover',
       username: route.value.params.username,
     });
+
     const photos = computed(() => {
       if (!data.value) return [];
+
       return data.value.payload.list || [];
     });
+
     const title = computed(() =>
       route.value.params.type === 'profile'
         ? 'Profile Photos'
         : 'Profile Covers'
     );
+
     return {
       title,
       isLoading,
