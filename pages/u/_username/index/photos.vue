@@ -3,31 +3,23 @@
     <VRow>
       <VCol class="d-flex child-flex" cols="3">
         <VCard :to="`/album/profile/${$route.params.username}`">
-          <VImg
+          <AppImgWithPlaceholder
             :src="profilePhotoAlbumCover"
             aspect-ratio="1"
             class="grey lighten-2"
             height="150"
-          >
-            <template #placeholder>
-              <AppImagePlaceholder />
-            </template>
-          </VImg>
+          />
           <VCardTitle class="text-h6"> Profile Photos </VCardTitle>
         </VCard>
       </VCol>
       <VCol class="d-flex child-flex" cols="3">
         <VCard :to="`/album/cover/${$route.params.username}`">
-          <VImg
+          <AppImgWithPlaceholder
             :src="coverPhotoAlbumCover"
             aspect-ratio="1"
             class="grey lighten-2"
             height="150"
-          >
-            <template #placeholder>
-              <AppImagePlaceholder />
-            </template>
-          </VImg>
+          />
           <VCardTitle class="text-h6"> Profile Covers </VCardTitle>
         </VCard>
       </VCol>
@@ -38,16 +30,12 @@
         cols="3"
       >
         <VCard :to="`/album/view/${album.album.guid}`">
-          <VImg
+          <AppImgWithPlaceholder
             :src="album.image_url"
             aspect-ratio="1"
             class="grey lighten-2"
             height="150"
-          >
-            <template #placeholder>
-              <AppImagePlaceholder />
-            </template>
-          </VImg>
+          />
           <VCardTitle class="text-h6">
             {{ album.album.title }}
           </VCardTitle>
@@ -59,10 +47,10 @@
 
 <script lang="ts">
 import { AlbumRecord, useAlbumList } from '~/composables';
-import AppImagePlaceholder from '~/components/AppImagePlaceholder.vue';
+import AppImgWithPlaceholder from '~/components/AppImgWithPlaceholder.vue';
 
 export default defineComponent({
-  components: { AppImagePlaceholder },
+  components: { AppImgWithPlaceholder },
   layout: 'authenticated',
   setup() {
     const route = useRoute();
