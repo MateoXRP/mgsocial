@@ -50,3 +50,4 @@ export * from './useDashboard';
 export * from './useAlbumList';
 export * from './useAlbumPhotoList';
 export * from './useProfileOrCoverAlbumPhotoList';
+export * from './usePhotoDetail';

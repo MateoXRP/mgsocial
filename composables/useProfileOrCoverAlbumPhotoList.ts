@@ -22,6 +22,9 @@ export const profileOrCoverAlbumPhotoKeys = {
         type,
       },
     ] as const,
+  details: () => [...profileOrCoverAlbumPhotoKeys.all, 'detail'] as const,
+  detail: (photoId: string) =>
+    [...profileOrCoverAlbumPhotoKeys.details(), photoId] as const,
 };
 
 export const useProfileOrCoverAlbumPhotoList = ({
