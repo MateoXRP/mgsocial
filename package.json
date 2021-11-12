@@ -33,7 +33,7 @@
     "dayjs": "^1.10.7",
     "emoji-picker-element": "^1.8.2",
     "file-selector": "^0.2.4",
-    "get-urls": "^10.0.0",
+    "get-urls": "^10.0.1",
     "html-entities": "^2.3.2",
     "nuxt": "^2.15.8",
     "open-graph-scraper": "^4.9.1",
