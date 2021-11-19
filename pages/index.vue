@@ -17,6 +17,16 @@
         <div class="sign-in-btn" @click="signin">
           <img src="/signin-coil-black.png" alt="coil_sign_in" width="220" />
         </div>
+        <div class="font-weight-medium mt-1 blue-grey--text text--darken-2">
+          or download the
+          <a href="https://apps.apple.com/us/app/mg-social/id1561681322">IOS</a>
+          and
+          <a
+            href="https://play.google.com/store/apps/details?id=social.mg.mobileapp"
+            >Android</a
+          >
+          app
+        </div>
         <div class="body-2 text-center mt-16" style="max-width: 28rem">
           <NuxtLink class="nuxt-link" to="/">© COPYRIGHT MG.SOCIAL</NuxtLink>
           <span>·</span>
