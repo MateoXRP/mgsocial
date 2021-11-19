@@ -66,6 +66,14 @@
             If you have any questions please reach out to us at
             <a href="mailto:admin@mg.social">admin@mg.social</a>.
           </p>
+          <p>&nbsp;&nbsp;</p>
+          <p>
+            MG.Social is a private corporation in the state of
+            <a
+              href="https://businesssearch.sos.ca.gov/CBS/SearchResults?filing=&SearchType=CORP&SearchCriteria=MG.Social&SearchSubType=Keyword"
+              >California</a
+            >.
+          </p>
         </VCardText>
       </VCard></VCol
     >
