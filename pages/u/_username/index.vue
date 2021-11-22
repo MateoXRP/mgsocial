@@ -4,10 +4,21 @@
       <UserProfileHeader :username="$route.params.username" />
     </VCol>
     <VCol cols="12">
-      <VTabs fixed-tabs>
-        <VTab v-for="(tab, index) in tabs" :key="index" :to="tab.route" exact>
-          {{ tab.name }}
-        </VTab>
+      <VTabs v-if="$accessor.auth.user" fixed-tabs>
+        <template v-for="(tab, index) in tabs">
+          <VTab
+            v-if="tab.name === 'Public Square'"
+            :key="index"
+            :disabled="!$accessor.auth.user.xummaddress"
+            :href="`https://ps.mg.social/u/${$accessor.auth.user.xummaddress}`"
+            target="_BLANK"
+          >
+            Public Square
+          </VTab>
+          <VTab v-else :key="index" :to="tab.route" exact>
+            {{ tab.name }}
+          </VTab>
+        </template>
       </VTabs>
     </VCol>
     <AppFragment v-if="$route.name === 'u-username-index'">
@@ -41,8 +52,8 @@ export default defineComponent({
     const tabs = ref([
       { name: 'Timeline', route: `/u/${username}` },
       { name: 'Friends', route: `/u/${username}/friends` },
-      { name: 'Bio', route: `/u/${username}/bio` },
       { name: 'Photos', route: `/u/${username}/photos` },
+      { name: 'Public Square', route: `/u/${username}/bio` },
     ]);
 
     return {
