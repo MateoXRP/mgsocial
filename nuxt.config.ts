@@ -38,6 +38,7 @@ const config: NuxtConfig = {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     script: [
       { src: 'https://cdn.coil.com/coil-oauth-wm.v7.beta.js', body: true },
+      { src: '/matomo.js' },
       { src: '/monetization.js' },
     ],
   },
