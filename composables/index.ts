@@ -51,3 +51,4 @@ export * from './useAlbumList';
 export * from './useAlbumPhotoList';
 export * from './useProfileOrCoverAlbumPhotoList';
 export * from './usePhotoDetail';
+export * from './usePublicSquarePostList';
