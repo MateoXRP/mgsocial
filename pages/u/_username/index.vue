@@ -5,23 +5,19 @@
     </VCol>
     <VCol cols="12">
       <VTabs v-if="$accessor.auth.user" fixed-tabs>
-        <template v-for="(tab, index) in tabs">
-          <VTab
-            v-if="tab.name === 'Public Square'"
-            :key="index"
-            :disabled="!$accessor.auth.user.xummaddress"
-            :href="`https://ps.mg.social/u/${$accessor.auth.user.xummaddress}`"
-            target="_BLANK"
-          >
-            Public Square
-          </VTab>
-          <VTab v-else :key="index" :to="tab.route" exact>
-            {{ tab.name }}
-          </VTab>
-        </template>
+        <VTab v-for="tab in tabs" :key="tab.name" :to="tab.route" exact>
+          {{ tab.name }}
+        </VTab>
       </VTabs>
     </VCol>
-    <AppFragment v-if="$route.name === 'u-username-index'">
+    <AppFragment
+      v-if="
+        $route.name &&
+        ['u-username-index', 'u-username-index-public-square'].includes(
+          $route.name
+        )
+      "
+    >
       <VCol cols="12" md="8">
         <NuxtChild />
       </VCol>
@@ -49,12 +45,12 @@ export default defineComponent({
     useMeta({
       title: username,
     });
-    const tabs = ref([
+    const tabs = [
       { name: 'Timeline', route: `/u/${username}` },
       { name: 'Friends', route: `/u/${username}/friends` },
       { name: 'Photos', route: `/u/${username}/photos` },
-      { name: 'Public Square', route: `/u/${username}/bio` },
-    ]);
+      { name: 'Public Square', route: `/u/${username}/public-square` },
+    ];
 
     return {
       tabs,
