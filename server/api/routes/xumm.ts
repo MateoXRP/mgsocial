@@ -149,4 +149,39 @@ router.get('/xumm/signin', async (req, res) => {
   return res.json(result);
 });
 
+router.post('/xumm/public-square', async (req, res) => {
+  const { text } = req.body;
+
+  const result = await Sdk.payload.create({
+    txjson: {
+      TransactionType: 'Payment',
+      Destination: 'r9pRgEJnRvYsTg3hxGScPx4WTapj2KYLRp',
+      DestinationTag: 99,
+      Amount: {
+        currency: 'MGS',
+        value: '1',
+        issuer: 'rHP4bHzghBdzskqcaPciL5WRGkHosB5zYx',
+      },
+      Memos: [
+        {
+          Memo: {
+            MemoData: Buffer.from(text).toString('hex'),
+          },
+        },
+      ],
+    },
+  });
+
+  if (result) {
+    return res.json({
+      success: true,
+      result,
+    });
+  }
+
+  return res.json({
+    success: false,
+  });
+});
+
 export default router;
