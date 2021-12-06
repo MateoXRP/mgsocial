@@ -22,7 +22,9 @@
           <v-img :src="user.icon.small"></v-img>
         </VListItemAvatar>
         <VListItemContent>
-          <VListItemTitle v-text="user.username"></VListItemTitle>
+          <VListItemTitle>
+            {{ $decodeHTMLEntities(user.username) }}</VListItemTitle
+          >
         </VListItemContent>
       </VListItem>
     </VList>

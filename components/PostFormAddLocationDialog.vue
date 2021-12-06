@@ -1,5 +1,5 @@
 <template>
-  <VDialog v-model="dialog" max-width="500">
+  <VDialog v-model="dialog">
     <template #activator="{ on, attrs }">
       <VBtn icon color="primary" v-bind="attrs" v-on="on">
         <VIcon>mdi-map-marker-outline</VIcon>

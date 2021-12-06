@@ -19,10 +19,12 @@
         :to="`/u/${user.username}`"
       >
         <VListItemAvatar>
-          <v-img :src="user.icon.small"></v-img>
+          <VImg :src="user.icon.small" />
         </VListItemAvatar>
         <VListItemContent>
-          <VListItemTitle v-text="user.username"></VListItemTitle>
+          <VListItemTitle>{{
+            $decodeHTMLEntities(user.username)
+          }}</VListItemTitle>
         </VListItemContent>
       </VListItem>
     </VList>

@@ -13,9 +13,9 @@
         <VImg :src="selectedThread.message_from.icon.small"></VImg>
       </VListItemAvatar>
       <VListItemContent>
-        <VListItemTitle
-          v-text="selectedThread.message_from.username"
-        ></VListItemTitle>
+        <VListItemTitle>
+          {{ $decodeHTMLEntities(selectedThread.message_from.username) }}
+        </VListItemTitle>
       </VListItemContent>
       <VListItemAction>
         <VBtn icon><VIcon>mdi-dots-vertical</VIcon></VBtn>

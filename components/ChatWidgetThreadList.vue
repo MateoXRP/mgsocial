@@ -19,9 +19,11 @@
         <VImg :src="thread.message_from.icon.small"></VImg>
       </VListItemAvatar>
       <VListItemContent>
-        <VListItemTitle v-text="thread.message_from.username"></VListItemTitle>
+        <VListItemTitle>
+          {{ $decodeHTMLEntities(thread.message_from.username) }}
+        </VListItemTitle>
         <VListItemSubtitle>{{
-          decodeHTMLEntities(thread.message)
+          $decodeHTMLEntities(thread.message)
         }}</VListItemSubtitle>
       </VListItemContent>
     </VListItem>
@@ -31,7 +33,6 @@
 <script lang="ts">
 import type { PropType } from '@nuxtjs/composition-api';
 import type { Thread } from '~/composables';
-import decodeHTMLEntities from '~/utils/decode-html-entities';
 
 export default defineComponent({
   name: 'ChatWidgetThreadList',
@@ -48,7 +49,7 @@ export default defineComponent({
     },
   },
   setup() {
-    return { decodeHTMLEntities };
+    return {};
   },
 });
 </script>

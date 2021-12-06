@@ -98,6 +98,10 @@
           :initial-value="isMonetizationEnabled"
           :is-monetization-enabled.sync="isMonetizationEnabled"
         />
+        <PostFormPublicSquareDialog
+          :initial-value="shouldPostToPublicSquare"
+          :should-post-to-public-square.sync="shouldPostToPublicSquare"
+        />
         <VSpacer />
         <PostFormPrivacyDialog
           :initial-value="privacy"
@@ -121,6 +125,7 @@ import PostFormMonetizationDialog from './PostFormMonetizationDialog.vue';
 import PostFormAddLocationDialog from './PostFormAddLocationDialog.vue';
 import AppEmojiPicker from './AppEmojiPicker.vue';
 import PostFormTagUserListDialog from './PostFormTagUserListDialog.vue';
+import PostFormPublicSquareDialog from './PostFormPublicSquareDialog.vue';
 import {
   PostPrivacy,
   useCurrentUser,
@@ -131,6 +136,7 @@ import {
   Monetized,
   PostType,
   useCreatePost,
+  usePublicSquarePosting,
 } from '~/composables';
 
 export default defineComponent({
@@ -141,6 +147,7 @@ export default defineComponent({
     PostFormAddLocationDialog,
     AppEmojiPicker,
     PostFormTagUserListDialog,
+    PostFormPublicSquareDialog,
   },
   setup() {
     const user = useCurrentUser();
@@ -156,6 +163,8 @@ export default defineComponent({
     );
     const { mutateAsync, isLoading } = useCreatePost();
     const createSnackbar = useSnackbar();
+    const shouldPostToPublicSquare = ref(false);
+    const postToPublicSquare = usePublicSquarePosting();
 
     const {
       files,
@@ -194,8 +203,22 @@ export default defineComponent({
         }
         await mutateAsync(body);
         taggedFriends.value = [];
-        createSnackbar('Posted successfully');
-        clearFields();
+
+        if (shouldPostToPublicSquare.value) {
+          createSnackbar('Posted successfully. Sending to Public Square...');
+          const { result, success } = await postToPublicSquare.mutateAsync(
+            text.value
+          );
+
+          if (success && result) {
+            window.location.href = result.next.always;
+          } else {
+            createSnackbar('An error occurred when posting to public square.');
+          }
+        } else {
+          createSnackbar('Posted successfully');
+          clearFields();
+        }
       } catch (e) {
         createSnackbar('An error occurred');
       }
@@ -214,6 +237,7 @@ export default defineComponent({
       location,
       taggedFriends,
       taggedFriendsUsernames,
+      shouldPostToPublicSquare,
     };
   },
 });
