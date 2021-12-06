@@ -56,6 +56,7 @@ const config: NuxtConfig = {
     '~/plugins/v-frag',
     '~/plugins/ignored-elements',
     '~/plugins/vue-chat-scroll',
+    '~/plugins/decode-html-entities',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
