@@ -30,15 +30,19 @@
 
 <script lang="ts">
 import { useAlbumPhotoList } from '~/composables';
+
 export default defineComponent({
   layout: 'authenticated',
   setup() {
     const route = useRoute();
     const { data, isLoading } = useAlbumPhotoList(route.value.params.id);
+
     const photos = computed(() => {
       if (!data.value) return [];
+
       return data.value.payload.list || [];
     });
+
     return {
       data,
       isLoading,
