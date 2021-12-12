@@ -19,12 +19,14 @@
 <script lang="ts">
 import { usePhotoDetail } from '~/composables';
 import AppImgWithPlaceholder from '~/components/AppImgWithPlaceholder.vue';
+
 export default defineComponent({
   components: { AppImgWithPlaceholder },
   layout: 'authenticated',
   setup() {
     const route = useRoute();
     const { data, isLoading } = usePhotoDetail(route.value.params.id);
+
     return {
       data,
       isLoading,
