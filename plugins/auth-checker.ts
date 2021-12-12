@@ -107,7 +107,7 @@ export default defineNuxtPlugin((context) => {
         cover_url:
           'https://monegram.social/cover/roberts/92e100437eac1068a580dca14588e842.jpg',
         language: 'en',
-        xummaddress: '',
+        xummaddress: 'rB8c4sdsD7yqGyYYAfVa25ZiV5SYKME9hs',
         paymentpointer:
           '$coil.xrptipbot.com/701298d5-481d-40ff-9945-336671ab2c42',
       });
