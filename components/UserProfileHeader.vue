@@ -54,6 +54,7 @@
             @click="addOrAcceptRequest('add')"
             >Add Friend</VBtn
           >
+          <UserProfileHeaderMenu :user-id="user.guid" />
         </div>
         <VBtn v-else class="mb-4" color="primary" outlined to="/settings"
           >Edit Profile</VBtn
@@ -66,6 +67,7 @@
 <script lang="ts">
 import ProfileHeaderPhoto from './ProfileHeaderPhoto.vue';
 import ProfileHeaderCover from './ProfileHeaderCover.vue';
+import UserProfileHeaderMenu from './UserProfileHeaderMenu.vue';
 import {
   useCurrentUserId,
   useUserDetail,
@@ -77,7 +79,7 @@ import {
 
 export default defineComponent({
   name: 'UserProfileHeader',
-  components: { ProfileHeaderPhoto, ProfileHeaderCover },
+  components: { ProfileHeaderPhoto, ProfileHeaderCover, UserProfileHeaderMenu },
   props: {
     username: {
       type: String,
