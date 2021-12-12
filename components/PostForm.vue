@@ -138,6 +138,7 @@ import {
   useCreatePost,
   usePublicSquarePosting,
 } from '~/composables';
+import decodeHTMLEntities from '~/utils/decode-html-entities';
 
 export default defineComponent({
   name: 'PostForm',
@@ -201,13 +202,16 @@ export default defineComponent({
         if (taggedFriends.value.length) {
           body.friends = taggedFriends.value.map((i) => i.guid).join(',');
         }
-        await mutateAsync(body);
+        const createdPost = await mutateAsync(body);
+
         taggedFriends.value = [];
 
         if (shouldPostToPublicSquare.value) {
           createSnackbar('Posted successfully. Sending to Public Square...');
           const { result, success } = await postToPublicSquare.mutateAsync(
-            text.value
+            decodeHTMLEntities(
+              JSON.parse(createdPost.payload.post.description).post
+            )
           );
 
           if (success && result) {
