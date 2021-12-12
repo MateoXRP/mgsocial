@@ -110,7 +110,6 @@ export default defineComponent({
       isError,
       refetch,
       infiniteHandler,
-      xummAddress,
     };
   },
 });
