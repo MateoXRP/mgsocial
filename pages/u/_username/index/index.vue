@@ -65,10 +65,6 @@ export default defineComponent({
       }
     };
 
-    watchEffect(() => {
-      console.log('posts', posts.value);
-    });
-
     return {
       isLoading,
       isError,

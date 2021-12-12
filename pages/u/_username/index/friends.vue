@@ -33,7 +33,9 @@
           <VImg :src="friend.icon.small"></VImg>
         </VListItemAvatar>
         <VListItemContent>
-          <VListItemTitle>{{ friend.username }}</VListItemTitle>
+          <VListItemTitle>{{
+            $decodeHTMLEntities(friend.username)
+          }}</VListItemTitle>
           <VListItemSubtitle
             >{{ friend.first_name }} {{ friend.last_name }}</VListItemSubtitle
           >
