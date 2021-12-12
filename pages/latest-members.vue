@@ -22,7 +22,9 @@
           <VImg :src="member.icon.small"></VImg>
         </VListItemAvatar>
         <VListItemContent>
-          <VListItemTitle>{{ member.username }}</VListItemTitle>
+          <VListItemTitle>{{
+            $decodeHTMLEntities(member.username)
+          }}</VListItemTitle>
           <VListItemSubtitle
             >{{ member.first_name }} {{ member.last_name }}</VListItemSubtitle
           >
