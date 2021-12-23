@@ -65,6 +65,11 @@
               label="Xumm Address"
               dense
               outlined
+              readonly
+              append-icon="mdi-qrcode-scan"
+              hint="Click the QR code icon to link Xumm account and to approve tips via push notifications"
+              persistent-hint
+              @click:append="linkXummAccount"
             />
           </VCardText>
         </VTabItem>
@@ -85,7 +90,8 @@
 </template>
 
 <script lang="ts">
-import { useSnackbar, useUserUpdate } from '~/composables';
+import { useSnackbar, useUserUpdate, useXummSignIn } from '~/composables';
+import createTemporaryLink from '~/utils/create-temporary-link';
 
 const rules = {
   firstName: [(v: string) => !!v || 'First name is required'],
@@ -117,7 +123,8 @@ export default defineComponent({
       xummAddress: $accessor.auth.user?.xummaddress,
     });
     const updateUser = useUserUpdate();
-    const createSnackbar = useSnackbar();
+    const showSnackbar = useSnackbar();
+    const xummSignIn = useXummSignIn();
     const isLoading = computed(() => updateUser.isLoading.value);
 
     const submit = async () => {
@@ -137,9 +144,20 @@ export default defineComponent({
           payment_pointer: paymentPointer!,
           xumm_address: xummAddress!,
         });
-        createSnackbar('Account updated');
+        showSnackbar('Account updated');
       } catch (e) {
-        createSnackbar('An error occurred');
+        showSnackbar('An error occurred');
+      }
+    };
+
+    const linkXummAccount = async () => {
+      try {
+        const result = await xummSignIn.mutateAsync();
+        if (result && result.next) {
+          createTemporaryLink(result.next.always);
+        }
+      } catch (e) {
+        showSnackbar('An error occurred');
       }
     };
 
@@ -152,6 +170,7 @@ export default defineComponent({
       submit,
       form,
       isLoading,
+      linkXummAccount,
     };
   },
 });
