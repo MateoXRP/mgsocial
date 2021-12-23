@@ -119,6 +119,9 @@ router.post('/xumm/signin', async (req, res) => {
     txjson: {
       TransactionType: 'SignIn',
     },
+    options: {
+      submit: true,
+    },
     custom_meta: {
       identifier: Date.now() + '_' + userId,
       blob: {
@@ -136,6 +139,9 @@ router.get('/xumm/signin', async (req, res) => {
   const result = await Sdk.payload.create({
     txjson: {
       TransactionType: 'SignIn',
+    },
+    options: {
+      submit: true,
     },
     custom_meta: {
       identifier: Date.now() + '_' + userId,
@@ -169,6 +175,9 @@ router.post('/xumm/public-square', async (req, res) => {
           },
         },
       ],
+    },
+    options: {
+      submit: true,
     },
   });
 
