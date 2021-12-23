@@ -1,11 +1,7 @@
 <template>
   <VNavigationDrawer v-model="drawer" app clipped right>
     <VList v-if="isLoading">
-      <VSkeletonLoader
-        v-for="n in 10"
-        :key="n"
-        type="listItemAvatar"
-      ></VSkeletonLoader>
+      <VSkeletonLoader v-for="n in 10" :key="n" type="listItemAvatar" />
     </VList>
     <FetchErrorAction
       v-else-if="isError"

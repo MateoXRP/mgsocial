@@ -3,7 +3,7 @@
     <VList two-line>
       <VListItem>
         <VListItemAvatar>
-          <VSkeletonLoader v-bind="$attrs" type="avatar"></VSkeletonLoader>
+          <VSkeletonLoader v-bind="$attrs" type="avatar" />
         </VListItemAvatar>
         <VListItemContent>
           <VListItemTitle>
@@ -14,17 +14,13 @@
             ></VSkeletonLoader>
           </VListItemTitle>
           <VListItemSubtitle>
-            <VSkeletonLoader
-              v-bind="$attrs"
-              type="text"
-              width="25%"
-            ></VSkeletonLoader>
+            <VSkeletonLoader v-bind="$attrs" type="text" width="25%" />
           </VListItemSubtitle>
         </VListItemContent>
       </VListItem>
     </VList>
     <VCardText>
-      <VSkeletonLoader v-bind="$attrs" type="paragraph"></VSkeletonLoader>
+      <VSkeletonLoader v-bind="$attrs" type="paragraph" />
     </VCardText>
   </VCard>
 </template>

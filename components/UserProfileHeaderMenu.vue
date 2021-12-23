@@ -6,11 +6,7 @@
       </VBtn>
     </template>
     <VList v-if="userIsBlockedLoading" min-width="200">
-      <VSkeletonLoader
-        v-for="n in 3"
-        :key="n"
-        type="list-item"
-      ></VSkeletonLoader>
+      <VSkeletonLoader v-for="n in 3" :key="n" type="list-item" />
     </VList>
     <VList v-else min-width="200">
       <VListItem @click="handleBlockUser">

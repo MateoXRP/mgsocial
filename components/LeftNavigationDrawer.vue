@@ -170,6 +170,11 @@ export default defineComponent({
           icon: 'mdi-account-multiple-outline',
           url: '/users-with-coil-id',
         });
+        list.push({
+          text: 'Users with Xumm token',
+          icon: 'mdi-account-multiple-outline',
+          url: '/users-with-xumm-token',
+        });
       }
 
       return list;
