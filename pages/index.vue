@@ -37,6 +37,10 @@
           >
           <span>·</span>
           <NuxtLink class="nuxt-link" to="/site/privacy">Privacy</NuxtLink>
+          <span>·</span>
+          <a href="/MG.SOCIAL_VISIONPAPER_FINAL_3.pdf" class="nuxt-link"
+            >Vision</a
+          >
         </div>
       </div>
     </VCol>
