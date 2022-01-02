@@ -56,3 +56,4 @@ export * from './usePublicSquarePosting';
 export * from './useBlockUser';
 export * from './useUserIsBlocked';
 export * from './useUserWithXummTokenList';
+export * from './useTotalRewards';
