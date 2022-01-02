@@ -37,16 +37,33 @@
         >
       </VCardText>
     </VCard>
+    <VCard class="mt-2" :loading="isLoadingTotalRewards">
+      <VCardTitle>Total MGS Rewards</VCardTitle>
+      <VCardText>
+        <span v-if="currentUser && currentUser.xummaddress" class="text-h5">{{
+          totalRewards ? totalRewards.amount : 0
+        }}</span>
+        <VBtn v-else nuxt to="/settings" color="primary" text
+          >Add Xumm Address</VBtn
+        >
+      </VCardText>
+    </VCard>
   </AppFragment>
 </template>
 
 <script lang="ts">
-import { useCurrentUser, useUserEarnings } from '~/composables';
+import {
+  useCurrentUser,
+  useTotalRewards,
+  useUserEarnings,
+} from '~/composables';
 
 export default defineComponent({
   layout: 'authenticated',
   setup() {
     const { data } = useUserEarnings();
+    const { data: totalRewards, isLoading: isLoadingTotalRewards } =
+      useTotalRewards();
     const currentUser = useCurrentUser();
 
     const tipsSummarized = computed(() => {
@@ -73,6 +90,8 @@ export default defineComponent({
       tipsSummarized,
       coilPayments,
       currentUser,
+      isLoadingTotalRewards,
+      totalRewards,
     };
   },
 });
