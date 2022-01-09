@@ -41,6 +41,8 @@
           <a href="/MG.SOCIAL_VISIONPAPER_FINAL_3.pdf" class="nuxt-link"
             >Vision</a
           >
+          <span>·</span>
+          <a href="https://blogs.mg.social" class="nuxt-link">Blog</a>
         </div>
       </div>
     </VCol>
