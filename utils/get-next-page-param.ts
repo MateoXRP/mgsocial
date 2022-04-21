@@ -1,7 +1,7 @@
-export default function getNextPageParam(
-  lastGroup: Record<any, any> | undefined
-) {
+export default function getNextPageParam(lastGroup: unknown) {
+  // @ts-ignore
   if (lastGroup && lastGroup.payload && lastGroup.payload.count) {
+    // @ts-ignore
     const { count, offset } = lastGroup.payload;
     // Get number of pages based on total posts
     const totalPages = Math.ceil(Number(count) / 10);
