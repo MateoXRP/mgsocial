@@ -42,7 +42,21 @@
             >Vision</a
           >
           <span>·</span>
-          <a href="https://blogs.mg.social" class="nuxt-link">Blog</a>
+          <a
+            href="https://blogs.mg.social"
+            class="nuxt-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Blog</a
+          >
+          <span>·</span>
+          <a
+            href="https://xrplmerch.com/product-category/mgsocial/"
+            class="nuxt-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Shop</a
+          >
         </div>
       </div>
     </VCol>
@@ -59,9 +73,20 @@
       <p class="mt-5 body-1" style="max-width: 28rem">
         Get paid to post! An ad-free social network with blockchain monetization
         powered by
-        <a class="white--text" href="https://coil.com/" target="_BLANK">Coil</a>
+        <a
+          class="white--text"
+          href="https://coil.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Coil</a
+        >
         and
-        <a class="white--text" href="https://xumm.app/" target="_BLANK">Xumm</a
+        <a
+          class="white--text"
+          href="https://xumm.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Xumm</a
         >.
       </p>
       <video controls class="mt-5" poster="/poster.png">
