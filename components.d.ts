@@ -35,6 +35,7 @@ declare module 'vue' {
     VSimpleTable: typeof import('vuetify/lib')['VSimpleTable'];
     VOverlay: typeof import('vuetify/lib')['VOverlay'];
     VProgressCircular: typeof import('vuetify/lib')['VProgressCircular'];
+    VRadioGroup: typeof import('vuetify/lib')['VRadioGroup'];
   }
 }
 
