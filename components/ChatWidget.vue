@@ -63,7 +63,6 @@ import ChatWidgetMessageList from './ChatWidgetMessageList.vue';
 import AppInfiniteScroll from './AppInfiniteScroll.vue';
 import {
   useThreadList,
-  useCurrentUser,
   useMessageList,
   Thread,
   useNotificationsCount,
@@ -81,7 +80,6 @@ export default defineComponent({
   },
   layout: 'authenticated',
   setup() {
-    const currentUser = useCurrentUser();
     const route = useRoute();
     const selectedThread = ref<Thread>();
     const threadExists = ref(false);
@@ -142,7 +140,6 @@ export default defineComponent({
 
     return {
       messages,
-      currentUser,
       isMessagesLoading,
       handleThreadInfinite,
       handleMessageInfinite,
